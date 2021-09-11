@@ -8,6 +8,10 @@ import (
 
 type logger zerolog.Logger
 
+func NewLogger() logger {
+	return logger{}
+}
+
 // Log implement Kratos log interface
 func (l logger) Log(level klog.Level, keyvals ...interface{}) error {
 	switch level {
