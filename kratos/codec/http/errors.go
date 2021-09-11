@@ -18,6 +18,11 @@ type ErrResp struct {
 	Msg  string `json:"msg"`
 }
 
+func RegisterPlatformAndService(p, s int32) {
+	PlatformCode = p
+	ServiceCode = s
+}
+
 func ErrorEncoder(w http.ResponseWriter, r *http.Request, err error) {
 	se := errors.FromError(err)
 	data, err := json.Marshal(&ErrResp{
