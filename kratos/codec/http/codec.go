@@ -13,8 +13,8 @@ const (
 // ResponseEncoder encodes the object to the HTTP response.
 func ResponseEncoder(w http.ResponseWriter, r *http.Request, v interface{}) error {
 	type response struct {
-		Code int32
-		Data interface{}
+		Code int32       `json:"code"`
+		Data interface{} `json:"data"`
 	}
 	data, err := json.Marshal(response{
 		Code: StatusOK,
