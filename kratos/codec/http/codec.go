@@ -1,4 +1,4 @@
-package errors
+package httpcodec
 
 import (
 	"encoding/json"
