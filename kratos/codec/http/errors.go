@@ -5,37 +5,24 @@ import (
 	"fmt"
 	"net/http"
 
-	khttp "github.com/go-kratos/kratos/v2/transport/http"
+	"github.com/go-kratos/kratos/v2/errors"
 )
 
-type ErrorCodec struct {
+var (
 	PlatformCode int32
 	ServiceCode  int32
-}
-
-type ErrorCode int
-
-type ErrorEncoder interface {
-	Error() string
-	GetCode() int
-	GetPlatformCode() int
-	GetServiceCode() int
-	GetErrTypeCode() int
-}
+)
 
 type ErrResp struct {
 	Code string `json:"code"`
 	Msg  string `json:"msg"`
 }
 
-func ErrorEncode(w http.ResponseWriter, r *http.Request, err error) {
-	m, ok := err.(ErrorEncoder)
-	if !ok {
-		khttp.DefaultErrorEncoder(w, r, err)
-	}
+func ErrorEncoder(w http.ResponseWriter, r *http.Request, err error) {
+	se := errors.FromError(err)
 	data, err := json.Marshal(&ErrResp{
-		Code: fmt.Sprintf("%v%v%v%v", m.GetPlatformCode(), m.GetServiceCode(), m.GetErrTypeCode(), m.GetCode()),
-		Msg:  m.Error(),
+		Code: fmt.Sprintf("%v%v%v", PlatformCode, ServiceCode, se.Code),
+		Msg:  se.Message,
 	})
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
