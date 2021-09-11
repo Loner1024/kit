@@ -25,7 +25,6 @@ func ResponseEncoder(w http.ResponseWriter, r *http.Request, v interface{}) erro
 	}
 	w.Header().Set("Content-Type", baseContentType)
 	_, err = w.Write(data)
-
 	if err != nil {
 		return err
 	}
