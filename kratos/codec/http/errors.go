@@ -27,7 +27,7 @@ func ErrorEncoder(w http.ResponseWriter, r *http.Request, err error) {
 	se := errors.FromError(err)
 	data, err := json.Marshal(&ErrResp{
 		Code: fmt.Sprintf("%v%v%v", PlatformCode, ServiceCode, se.Code),
-		Msg:  se.Message,
+		Msg:  se.Reason,
 	})
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
