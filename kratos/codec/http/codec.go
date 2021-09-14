@@ -3,7 +3,7 @@ package httpcodec
 import (
 	"net/http"
 
-	khttp "github.com/go-kratos/kratos/v2/transport/http"
+	"github.com/Loner1024/kit/kratos/codec/http/jsonsb"
 )
 
 const (
@@ -13,12 +13,11 @@ const (
 
 // ResponseEncoder encodes the object to the HTTP response.
 func ResponseEncoder(w http.ResponseWriter, r *http.Request, v interface{}) error {
-	codec, _ := khttp.CodecForRequest(r, "Accept")
 	type response struct {
 		Code int32       `json:"code"`
 		Data interface{} `json:"data"`
 	}
-	data, err := codec.Marshal(response{
+	data, err := jsonsb.Marshal(response{
 		Code: StatusOK,
 		Data: v,
 	})
